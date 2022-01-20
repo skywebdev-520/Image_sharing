@@ -14,15 +14,25 @@ export default function Home() {
         const search = location.search;
         const cat = new URLSearchParams(search).get("category");
         const pageNo = new URLSearchParams(search).get("page") || 1;
-        let check = [{ category: "nature", name: "nature_1", url: "http://localhost:8888/static/images/nature/nature_1.jpeg" },
-        { category: "nature", name: "nature_2", url: "http://localhost:8888/static/images/nature/nature_2.jpeg" },
-        { category: "nature", name: "nature_3", url: "http://localhost:8888/static/images/nature/nature_3.jpeg" }]
         setPage(pageNo)
         setCategory(cat)
-        setData(check)
+        findImages(cat, pageNo);
     }, [location.search]);
 
+    const findImages = async (categoryName, pageNo) => {
+        let urls = [`http://localhost:8888/images?category=${categoryName}${(pageNo !== '') ? '&page=' + (Number(pageNo * 3) - 2) : ''}`,
+        `http://localhost:8888/images?category=${categoryName}${(pageNo !== '') ? '&page=' + (Number(pageNo * 3) - 1) : ''}`,
+        `http://localhost:8888/images?category=${categoryName}${(pageNo !== '') ? '&page=' + (Number(pageNo * 3)) : ''}`]
 
+        Promise.all(
+            urls.map(url =>
+                fetch(url)
+                    .then(res => res.json())
+            )
+        ).then(result => {
+            setData([].concat(...result))
+        });
+    }
 
     return data.length > 0 ? (
         <>
