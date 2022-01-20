@@ -41,7 +41,7 @@ export default function Home() {
                 <div className="container">
                     <div className="heading_container heading_center">
                         <h2>
-                            <span>Nature</span>
+                            <span>{category.toUpperCase()}</span>
                         </h2>
                     </div>
                     <div className="row">
