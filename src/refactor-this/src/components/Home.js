@@ -36,14 +36,23 @@ export default function Home() {
 
     return data.length > 0 ? (
         <>
-            <div className="container">
-                <div id={category + '-images'} className="row row-cols-3">
-                    {data.map((image, index) =>
-                        <Images key={index} name={image.name} url={image.url} />
-                    )}
+
+            <section className="product_section layout_padding">
+                <div className="container">
+                    <div className="heading_container heading_center">
+                        <h2>
+                            <span>Nature</span>
+                        </h2>
+                    </div>
+                    <div className="row">
+                        {data.map((image, index) =>
+                            <Images key={index} name={image.name} url={image.url} />
+                        )}
+                    </div>
+                    <Pagination category={category} page={page} />
                 </div>
-            </div>
-            <Pagination category={category} page={page} />
+            </section>
+
         </>
     ) : (<center><img src={loadings} alt="loading..." /></center>)
 }
